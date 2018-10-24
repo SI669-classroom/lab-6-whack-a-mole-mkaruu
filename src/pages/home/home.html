@@ -10,9 +10,11 @@
   <ion-grid>
     <ion-row>
       <ion-col col-4 *ngFor="let hole of moleHoles">
+          
         <button ion-button 
           [class]="stateToClass(hole.moleState)"
-          (click)="hit(hole)"></button>
+          (click)="hit(hole)">          
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>

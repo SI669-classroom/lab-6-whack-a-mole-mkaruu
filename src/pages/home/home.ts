@@ -15,7 +15,8 @@ export class HomePage {
   gameTimer: any;
   timeLeft: number = 0;
   timerObserver: any;
-  score: 0;
+  score: number = 0;
+  myScoreObserver: any;
 
 
   constructor(public navCtrl: NavController) {
@@ -23,13 +24,21 @@ export class HomePage {
     /**
      * Create an observer to be passed to the new MoleHoles
      */
+    let scoreObservable = Observable.create(observer => {
+      this.myScoreObserver = observer; 
+    });
 
     /**
      * Subscribe to the observer created above to update the score
      */
 
+    scoreObservable.subscribe(val => {
+      this.score = this.score+=1
+      console.log(this.score);
+      });
+
     for(let i = 0; i<9; i++) {
-      this.moleHoles.push(new MoleHole(i, /*Pass the observer created to the new MoleHoles*/))
+      this.moleHoles.push(new MoleHole(i, this.myScoreObserver/*Pass the observer created to the new MoleHoles*/))
     }
 
     let timerUpdate = Observable.create(observer => {
@@ -39,6 +48,9 @@ export class HomePage {
     timerUpdate.subscribe(val => {
       this.timeLeft = val;
     })
+
+
+
 
     this.startGame()
   }
@@ -98,11 +110,20 @@ export class HomePage {
   }
 
   stateToClass(state: number) {
-    switch(state) {
-      /**
-       * What should this function do?
-       * Hint: Look in the home.scss file
-       */
+    // switch(state) {
+    //   /**
+    //    * What should this function do?
+    //    * Hint: Look in the home.scss file
+    //    */
+ 
+  // }
+
+    if(state === 0) {
+      return "hid";
+    } else if(state === 1) {
+      return "out";
+    } else if(state === 2) {
+      return "hit";
     }
 }
 
